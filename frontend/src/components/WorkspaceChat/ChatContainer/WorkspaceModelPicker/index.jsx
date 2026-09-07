@@ -105,39 +105,56 @@ export default function WorkspaceModelPicker({ workspaceSlug = null }) {
         />
       )}
       <div
-        className={`hidden md:block absolute top-2 z-30 transition-all duration-500 ${
+        className={`hidden md:flex items-center gap-x-2 absolute top-2.5 z-30 transition-all duration-500 ${
           sidebarOpen ? "left-3" : "left-11"
         }`}
       >
         <button
           type="button"
-          onClick={() => setShowSelector(!showSelector)}
-          className={`group border-none cursor-pointer px-2.5 py-1 flex items-center rounded-full transition-all ${
-            showSelector
-              ? "bg-zinc-700 light:bg-slate-200"
-              : "hover:bg-zinc-700 light:hover:bg-slate-200"
-          }`}
+          onClick={() => window.history.back()}
+          className="border border-zinc-700/60 hover:border-cyan-500/50 bg-zinc-800/80 hover:bg-zinc-700/90 text-zinc-200 hover:text-white px-3 py-1 rounded-full text-xs font-medium transition-all flex items-center gap-x-1 cursor-pointer"
         >
-          <span
-            className={`text-xs ${
-              showSelector
-                ? "text-white light:text-slate-800"
-                : "text-zinc-500 light:text-slate-500 group-hover:text-white light:group-hover:text-slate-800"
-            }`}
-          >
-            {modelName || t("chat_window.select_model")}
-          </span>
+          <span>← Back</span>
+        </button>
+        <button
+          type="button"
+          onClick={() => (window.location.href = "/")}
+          className="border border-zinc-700/60 hover:border-cyan-500/50 bg-zinc-800/80 hover:bg-zinc-700/90 text-zinc-200 hover:text-white px-3 py-1 rounded-full text-xs font-medium transition-all flex items-center gap-x-1 cursor-pointer"
+        >
+          <span>🏠 Home</span>
         </button>
 
-        {showSelector && (
-          <div className="absolute left-0 top-full mt-1 bg-zinc-800 light:bg-white border border-zinc-700 light:border-slate-300 rounded-xl shadow-lg w-[620px] overflow-hidden">
-            <LLMSelectorModal
-              key={refreshKey}
-              workspaceSlug={slug}
-              initialProvider={config.provider?.value}
-            />
-          </div>
-        )}
+        <div className="relative">
+          <button
+            type="button"
+            onClick={() => setShowSelector(!showSelector)}
+            className={`group border-none cursor-pointer px-2.5 py-1 flex items-center rounded-full transition-all ${
+              showSelector
+                ? "bg-zinc-700 light:bg-slate-200"
+                : "hover:bg-zinc-700 light:hover:bg-slate-200"
+            }`}
+          >
+            <span
+              className={`text-xs ${
+                showSelector
+                  ? "text-white light:text-slate-800"
+                  : "text-zinc-500 light:text-slate-500 group-hover:text-white light:group-hover:text-slate-800"
+              }`}
+            >
+              {modelName || t("chat_window.select_model")}
+            </span>
+          </button>
+
+          {showSelector && (
+            <div className="absolute left-0 top-full mt-1 bg-zinc-800 light:bg-white border border-zinc-700 light:border-slate-300 rounded-xl shadow-lg w-[620px] overflow-hidden">
+              <LLMSelectorModal
+                key={refreshKey}
+                workspaceSlug={slug}
+                initialProvider={config.provider?.value}
+              />
+            </div>
+          )}
+        </div>
       </div>
 
       <SetupProvider

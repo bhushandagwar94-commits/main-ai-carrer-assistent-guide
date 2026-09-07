@@ -29,6 +29,7 @@ import { ChatTooltips } from "@/components/WorkspaceChat/ChatContainer/ChatToolt
 import { ChatSidebarProvider } from "@/components/WorkspaceChat/ChatContainer/ChatSidebar";
 import { clearPromptInputDraft } from "@/hooks/usePromptInputStorage";
 import MemoriesSidebar from "@/components/WorkspaceChat/ChatContainer/MemoriesSidebar";
+import AICareerAssistantLanding from "@/components/AICareerAssistant/AICareerAssistantLanding";
 
 async function getTargetWorkspace() {
   const lastVisited = safeJsonParse(
@@ -295,15 +296,18 @@ function HomeContent({ workspace, setWorkspace, threadSlug, setThreadSlug }) {
         className="relative flex md:ml-[2px] md:mr-[16px] md:my-[16px] w-full h-full z-[2]"
       >
         <ChatSettingsMenu />
-        <div className="flex-1 min-w-0 transition-all duration-500 relative md:rounded-[16px] bg-zinc-900 light:bg-white w-full h-full overflow-hidden border-none light:border-solid light:border light:border-theme-modal-border">
+        <div
+          className="flex-1 min-w-0 transition-all duration-500 relative md:rounded-[16px] w-full h-full overflow-hidden border-none shadow-2xl"
+          style={{
+            background:
+              "linear-gradient(135deg, #0B1120 0%, #111827 50%, #020617 100%)",
+          }}
+        >
           {isMobile && <SidebarMobileHeader />}
           <WorkspaceModelPicker workspaceSlug={workspace?.slug} />
           <DnDFileUploaderWrapper>
-            <div className="flex flex-col h-full w-full items-center justify-center">
-              <div className="flex flex-col items-center w-full max-w-[750px]">
-                <h1 className="text-white text-xl md:text-2xl mb-11 text-center">
-                  {t("main-page.greeting")}
-                </h1>
+            <AICareerAssistantLanding sendCommand={sendCommand}>
+              <div className="w-[90%] max-w-[850px] mx-auto flex-shrink-0 mt-3 pb-2 z-20 relative">
                 <PromptInput
                   workspace={workspace}
                   submit={handleSubmit}
@@ -314,20 +318,8 @@ function HomeContent({ workspace, setWorkspace, threadSlug, setThreadSlug }) {
                   workspaceSlug={workspace?.slug}
                   threadSlug={threadSlug}
                 />
-                <QuickActions
-                  hasAvailableWorkspace={!!workspace}
-                  onCreateAgent={() => navigate(paths.settings.agentSkills())}
-                  onEditWorkspace={handleEditWorkspace}
-                  onUploadDocument={() =>
-                    document.getElementById("dnd-chat-file-uploader")?.click()
-                  }
-                />
               </div>
-              <SuggestedMessages
-                suggestedMessages={workspace?.suggestedMessages}
-                sendCommand={sendCommand}
-              />
-            </div>
+            </AICareerAssistantLanding>
           </DnDFileUploaderWrapper>
           <ChatTooltips />
         </div>

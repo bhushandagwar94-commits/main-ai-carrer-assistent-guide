@@ -44,13 +44,30 @@ export default function Sidebar() {
         )}
         <div className="overflow-hidden h-full">
           <div className="flex shrink-0 w-full justify-center my-[18px]">
-            <div className="flex w-[250px] min-w-[250px]">
-              <Link to={paths.home()} aria-label="Home">
-                <img
-                  src={logo}
-                  alt="Logo"
-                  className={`rounded max-h-[24px] object-contain transition-opacity duration-500 ${showSidebar ? "opacity-100" : "opacity-0"}`}
-                />
+            <div className="flex w-[250px] min-w-[250px] items-center">
+              <Link
+                to={paths.home()}
+                aria-label="AI Career Assistant"
+                className={`flex items-center gap-x-2.5 no-underline group transition-opacity duration-500 ${showSidebar ? "opacity-100" : "opacity-0"}`}
+              >
+                <div
+                  className="w-8 h-8 rounded-xl flex items-center justify-center text-xs font-bold text-white shadow-md shrink-0 transition-transform duration-300 group-hover:scale-105"
+                  style={{
+                    background:
+                      "linear-gradient(135deg, #0284C7 0%, #06B6D4 100%)",
+                    boxShadow: "0 0 12px rgba(34, 211, 238, 0.35)",
+                  }}
+                >
+                  AI
+                </div>
+                <div className="flex flex-col leading-none">
+                  <span className="text-[15px] font-bold text-white tracking-wide group-hover:text-[#22D3EE] transition-colors">
+                    AI Career Assistant
+                  </span>
+                  <span className="text-[10px] text-[#38BDF8] font-medium tracking-wider uppercase mt-1">
+                    Resume & Career Mentor
+                  </span>
+                </div>
               </Link>
             </div>
           </div>
@@ -120,12 +137,24 @@ export function SidebarMobileHeader() {
           <List className="h-6 w-6" />
         </button>
         <div className="flex items-center justify-center flex-grow">
-          <img
-            src={logo}
-            alt="Logo"
-            className="block mx-auto h-6 w-auto"
-            style={{ maxHeight: "40px", objectFit: "contain" }}
-          />
+          <Link
+            to={paths.home()}
+            aria-label="AI Career Assistant"
+            className="flex items-center gap-x-2 no-underline"
+          >
+            <div
+              className="w-7 h-7 rounded-lg flex items-center justify-center text-xs font-bold text-white shadow-md shrink-0"
+              style={{
+                background:
+                  "linear-gradient(135deg, #0284C7 0%, #06B6D4 100%)",
+              }}
+            >
+              AI
+            </div>
+            <span className="text-[14px] font-bold text-white tracking-wide">
+              AI Career Assistant
+            </span>
+          </Link>
         </div>
         <div className="w-12"></div>
       </div>
@@ -151,12 +180,29 @@ export function SidebarMobileHeader() {
             {/* Header Information */}
             <div className="flex w-full items-center justify-between gap-x-4">
               <div className="flex shrink-1 w-fit items-center justify-start">
-                <img
-                  src={logo}
-                  alt="Logo"
-                  className="rounded w-full max-h-[40px]"
-                  style={{ objectFit: "contain" }}
-                />
+                <Link
+                  to={paths.home()}
+                  aria-label="AI Career Assistant"
+                  className="flex items-center gap-x-2 no-underline"
+                >
+                  <div
+                    className="w-8 h-8 rounded-xl flex items-center justify-center text-xs font-bold text-white shadow-md shrink-0"
+                    style={{
+                      background:
+                        "linear-gradient(135deg, #0284C7 0%, #06B6D4 100%)",
+                    }}
+                  >
+                    AI
+                  </div>
+                  <div className="flex flex-col leading-none">
+                    <span className="text-[14px] font-bold text-white tracking-wide">
+                      AI Career Assistant
+                    </span>
+                    <span className="text-[9px] text-[#38BDF8] font-medium uppercase mt-0.5">
+                      Career Mentor
+                    </span>
+                  </div>
+                </Link>
               </div>
               {(!user || user?.role !== "default") && (
                 <div className="flex gap-x-2 items-center text-slate-500 shink-0">

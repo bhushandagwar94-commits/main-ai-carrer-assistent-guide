@@ -115,7 +115,15 @@ const HistoricalMessage = ({
         className={`${isDeleted ? "animate-remove" : ""} flex justify-end w-full group`}
       >
         <div className="py-4 px-4 flex flex-col items-end">
-          <div className="bg-zinc-800 light:bg-slate-100 rounded-[20px] rounded-br-none px-4 py-3.5 max-w-[600px] [&_p]:m-0">
+          <div
+            className="rounded-[20px] rounded-br-none px-4 py-3.5 max-w-[600px] [&_p]:m-0 text-white shadow-xl"
+            style={{
+              background:
+                "linear-gradient(135deg, rgba(34, 211, 238, 0.22) 0%, rgba(14, 165, 233, 0.14) 100%)",
+              border: "1px solid rgba(34, 211, 238, 0.35)",
+              backdropFilter: "blur(12px)",
+            }}
+          >
             <TruncatableContent>
               <RenderChatContent
                 role={role}
@@ -135,7 +143,7 @@ const HistoricalMessage = ({
             isEditing={isEditing}
             role={role}
             forkThread={forkThread}
-            metrics={metrics}
+            metrics={{}}
           />
         </div>
       </div>
@@ -146,44 +154,70 @@ const HistoricalMessage = ({
     <div
       key={uuid}
       onAnimationEnd={onEndAnimation}
-      className={`${isDeleted ? "animate-remove" : ""} flex justify-start w-full group`}
+      className={`${isDeleted ? "animate-remove" : ""} flex justify-start w-full group mb-4`}
     >
-      <div className="py-4 px-4 md:pl-0 flex flex-col w-full">
-        {isEditing ? (
-          <EditMessageForm
-            role={role}
-            chatId={chatId}
-            message={message}
-            attachments={attachments}
-            adjustTextArea={adjustTextArea}
-            saveChanges={saveEditedMessage}
-          />
-        ) : (
-          <div className="break-words">
-            <HistoricalClarifyingQuestions surveys={clarifyingQuestions} />
-            <RenderChatContent role={role} message={message} />
-            {isRefusalMessage && (
-              <Link
-                data-tooltip-id="query-refusal-info"
-                data-tooltip-content={`${t("chat.refusal.tooltip-description")}`}
-                className="!no-underline group !flex w-fit"
-                to={paths.chatModes()}
-                target="_blank"
-              >
-                <div className="flex flex-row items-center gap-x-1 group-hover:opacity-100 opacity-60 w-fit">
-                  <Info className="text-theme-text-secondary" />
-                  <p className="!m-0 !p-0 text-theme-text-secondary !no-underline text-xs cursor-pointer">
-                    {t("chat.refusal.tooltip-title")}
-                  </p>
-                </div>
-              </Link>
-            )}
-            <ChatAttachments attachments={attachments} />
-            <HistoricalOutputs outputs={outputs} />
+      <div className="py-2 px-4 md:pl-4 flex flex-col w-full max-w-[850px] mx-auto">
+        {/* Assistant Avatar Header */}
+        <div className="flex items-center gap-x-2 mb-2">
+          <div
+            className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold text-white shadow-md"
+            style={{
+              background: "linear-gradient(135deg, #0284C7 0%, #06B6D4 100%)",
+            }}
+          >
+            AI
           </div>
-        )}
-        {hasVisibleContent(message) && (
-          <div className="flex items-start md:items-center gap-x-1">
+          <span className="text-sm font-semibold text-slate-200 tracking-wide">
+            AI Career Assistant
+          </span>
+        </div>
+
+        {/* Response Card Container */}
+        <div
+          className="rounded-2xl p-5 border text-[#F1F5F9] shadow-xl backdrop-blur-md transition-all duration-300"
+          style={{
+            background: "rgba(15, 23, 42, 0.75)",
+            borderColor: "rgba(56, 189, 248, 0.25)",
+            boxShadow:
+              "0 10px 30px -5px rgba(0, 0, 0, 0.4), 0 0 15px rgba(34, 211, 238, 0.08)",
+          }}
+        >
+          {isEditing ? (
+            <EditMessageForm
+              role={role}
+              chatId={chatId}
+              message={message}
+              attachments={attachments}
+              adjustTextArea={adjustTextArea}
+              saveChanges={saveEditedMessage}
+            />
+          ) : (
+            <div className="break-words text-[15px] leading-relaxed [&_ol]:pl-5 [&_ul]:pl-5 [&_li]:my-1.5 [&_strong]:text-[#38BDF8]">
+              <HistoricalClarifyingQuestions surveys={clarifyingQuestions} />
+              <RenderChatContent role={role} message={message} />
+              {isRefusalMessage && (
+                <Link
+                  data-tooltip-id="query-refusal-info"
+                  data-tooltip-content={`${t("chat.refusal.tooltip-description")}`}
+                  className="!no-underline group !flex w-fit"
+                  to={paths.chatModes()}
+                  target="_blank"
+                >
+                  <div className="flex flex-row items-center gap-x-1 group-hover:opacity-100 opacity-60 w-fit">
+                    <Info className="text-theme-text-secondary" />
+                    <p className="!m-0 !p-0 text-theme-text-secondary !no-underline text-xs cursor-pointer">
+                      {t("chat.refusal.tooltip-title")}
+                    </p>
+                  </div>
+                </Link>
+              )}
+              <ChatAttachments attachments={attachments} />
+              <HistoricalOutputs outputs={outputs} />
+            </div>
+          )}
+        </div>
+
+        <div className="flex items-start md:items-center gap-x-1 mt-2">
             <TTSMessage
               slug={workspace?.slug}
               chatId={chatId}
@@ -199,10 +233,9 @@ const HistoricalMessage = ({
               isEditing={isEditing}
               role={role}
               forkThread={forkThread}
-              metrics={metrics}
+              metrics={{}}
             />
           </div>
-        )}
         {role === "assistant" && <Citations sources={sources} />}
       </div>
     </div>

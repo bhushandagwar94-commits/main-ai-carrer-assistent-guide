@@ -346,7 +346,16 @@ export default function PromptInput({
               centered={centered}
               highlightedIndexRef={toolsHighlightRef}
             />
-            <div className="bg-zinc-800 light:bg-white light:border light:border-slate-300 rounded-[20px] pwa:rounded-3xl flex flex-col px-5 overflow-hidden">
+            <div
+              className="rounded-[22px] flex flex-col px-5 overflow-hidden transition-all duration-300"
+              style={{
+                background: "rgba(15, 23, 42, 0.85)",
+                backdropFilter: "blur(16px)",
+                border: "1px solid rgba(56, 189, 248, 0.35)",
+                boxShadow:
+                  "0 12px 35px -5px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.08)",
+              }}
+            >
               <AttachmentManager attachments={attachments} />
               <div className="flex items-center">
                 <textarea
@@ -366,8 +375,12 @@ export default function PromptInput({
                   }}
                   value={promptInput}
                   spellCheck={Appearance.get("enableSpellCheck")}
-                  className={`border-none cursor-text max-h-[50vh] md:max-h-[350px] md:min-h-[40px] pt-[20px] w-full leading-5 text-white light:text-slate-600 bg-transparent placeholder:text-white/60 light:placeholder:text-slate-400 resize-none active:outline-none focus:outline-none flex-grow pwa:!text-[16px] ${textSizeClass}`}
-                  placeholder={t("chat_window.send_message")}
+                  className={`border-none cursor-text max-h-[50vh] md:max-h-[350px] md:min-h-[40px] pt-[20px] w-full leading-5 text-white bg-transparent placeholder:text-slate-400 resize-none active:outline-none focus:outline-none flex-grow pwa:!text-[16px] ${textSizeClass}`}
+                  placeholder={
+                    centered
+                      ? "Ask a career question. AI response will activate after model setup..."
+                      : t("chat_window.send_message")
+                  }
                 />
               </div>
               <div className="flex justify-between items-center pt-3.5 pb-3">
@@ -493,18 +506,27 @@ function ToolsButton({
 
 function SendPromptButton({ formRef, promptInput, isDisabled }) {
   const { t } = useTranslation();
+  const canSend = promptInput.trim().length && !isDisabled;
 
   return (
     <>
       <button
         ref={formRef}
         type="submit"
-        disabled={isDisabled || !promptInput.trim().length}
+        disabled={!canSend}
         className={`border-none flex justify-center items-center rounded-full w-8 h-8 transition-all ${
-          promptInput.trim().length && !isDisabled
-            ? "cursor-pointer bg-white hover:bg-zinc-200 light:bg-slate-800 light:hover:bg-slate-600"
-            : "cursor-not-allowed bg-zinc-600 light:bg-slate-400"
+          canSend
+            ? "cursor-pointer text-white shadow-lg hover:scale-105 active:scale-95"
+            : "cursor-not-allowed bg-slate-700/50 text-slate-400"
         }`}
+        style={
+          canSend
+            ? {
+                background: "linear-gradient(135deg, #0284C7 0%, #06B6D4 100%)",
+                boxShadow: "0 0 15px rgba(34, 211, 238, 0.4)",
+              }
+            : {}
+        }
         data-tooltip-id="send-prompt"
         data-tooltip-content={
           isDisabled
@@ -514,7 +536,9 @@ function SendPromptButton({ formRef, promptInput, isDisabled }) {
         aria-label={t("chat_window.send")}
       >
         <ArrowUp
-          className="w-[18px] h-[18px] pointer-events-none text-zinc-800 light:text-white"
+          className={`w-[18px] h-[18px] pointer-events-none ${
+            canSend ? "text-white" : "text-slate-400"
+          }`}
           weight="bold"
         />
         <span className="sr-only">{t("chat_window.send")}</span>
