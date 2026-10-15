@@ -4,26 +4,28 @@ const { spawn } = require("child_process");
 const { v5: uuidv5, v4: uuidv4 } = require("uuid");
 const { Document } = require("../../models/documents");
 const { DocumentSyncQueue } = require("../../models/documentSyncQueue");
+const storageDir =
+  process.env.STORAGE_DIR || path.resolve(__dirname, `../../storage`);
 const documentsPath =
   process.env.NODE_ENV === "development"
     ? path.resolve(__dirname, `../../storage/documents`)
-    : path.resolve(process.env.STORAGE_DIR, `documents`);
+    : path.resolve(storageDir, `documents`);
 const directUploadsPath =
   process.env.NODE_ENV === "development"
     ? path.resolve(__dirname, `../../storage/direct-uploads`)
-    : path.resolve(process.env.STORAGE_DIR, `direct-uploads`);
+    : path.resolve(storageDir, `direct-uploads`);
 const vectorCachePath =
   process.env.NODE_ENV === "development"
     ? path.resolve(__dirname, `../../storage/vector-cache`)
-    : path.resolve(process.env.STORAGE_DIR, `vector-cache`);
+    : path.resolve(storageDir, `vector-cache`);
 const hotdirPath =
   process.env.NODE_ENV === "development"
     ? path.resolve(__dirname, `../../../collector/hotdir`)
-    : path.resolve(process.env.STORAGE_DIR, `../../collector/hotdir`);
+    : path.resolve(storageDir, `../../collector/hotdir`);
 const generatedImagesPath =
   process.env.NODE_ENV === "development"
     ? path.resolve(__dirname, `../../storage/generated-images`)
-    : path.resolve(process.env.STORAGE_DIR, `generated-images`);
+    : path.resolve(storageDir, `generated-images`);
 
 // Should take in a folder that is a subfolder of documents
 // eg: youtube-subject/video-123.json
